@@ -65,7 +65,7 @@ class OrderListItem extends StatelessWidget {
 
     Widget card = AppCard(
       onTap: order.orderId != null
-          ? () => Get.toNamed(AppRoutes.orderDetailPath(order.orderId!))
+          ? () => Get.toNamed(AppRoutes.orderDetailPath(order.orderId!), arguments: order)
           : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,22 +20,18 @@ class HomeScreen extends StatelessWidget {
     final controller = Get.find<HomeController>();
 
     return Scaffold(
-      backgroundColor: AppColors.mist,
+      backgroundColor: AppColors.snow,
       body: WaterPullToRefresh(
         onRefresh: controller.refreshData,
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           slivers: [
-            SliverToBoxAdapter(
-              child: Obx(() {
-                final summary = controller.todaySummary.value;
-                return WaterHeader(
-                  controller: controller,
-                  orderCount: summary.count,
-                  sold: summary.sold,
-                  cash: summary.cash,
-                );
-              }),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: HomeHeaderDelegate(
+                controller: controller,
+                topInset: MediaQuery.paddingOf(context).top,
+              ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.lg)),
             SliverToBoxAdapter(

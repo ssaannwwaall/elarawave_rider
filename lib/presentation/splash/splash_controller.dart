@@ -8,8 +8,8 @@ class SplashController extends GetxController {
 
   final RxDouble fillProgress = 0.0.obs;
 
-  static const _minDisplay = Duration(milliseconds: 2000);
-  static const _maxDisplay = Duration(milliseconds: 3500);
+  static const _minDisplay = Duration(milliseconds: 3500);
+  static const _maxDisplay = Duration(milliseconds: 5000);
 
   @override
   void onReady() {

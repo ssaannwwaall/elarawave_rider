@@ -8,10 +8,19 @@ import '../../domain/entities/rider.dart';
 /// header in ApiClient, add a real logout call).
 class SessionStorage {
   static const String _riderKey = 'rider';
+  static const String _companyKey = 'company';
 
   final GetStorage _box;
 
   SessionStorage(this._box);
+
+  /// The company slug used to build the API base URL (e.g. "demo").
+  /// Deliberately preserved across logout so the login screen can prefill it.
+  String get company => (_box.read(_companyKey) as String?)?.trim() ?? '';
+
+  Future<void> saveCompany(String company) async {
+    await _box.write(_companyKey, company.trim());
+  }
 
   Rider? get currentRider {
     final json = _box.read(_riderKey);
@@ -24,7 +33,14 @@ class SessionStorage {
   Future<void> saveRider(Rider rider) async {
     final model = rider is RiderModel
         ? rider
-        : RiderModel(id: rider.id, name: rider.name, username: rider.username, email: rider.email);
+        : RiderModel(
+            id: rider.id,
+            name: rider.name,
+            username: rider.username,
+            email: rider.email,
+            type: rider.type,
+            photoUrl: rider.photoUrl,
+          );
     await _box.write(_riderKey, model.toJson());
   }
 

@@ -16,6 +16,7 @@ Future<void> main() async {
 class ElaraWaveRiderApp extends StatelessWidget {
   const ElaraWaveRiderApp({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

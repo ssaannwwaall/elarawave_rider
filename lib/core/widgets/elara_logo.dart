@@ -5,8 +5,9 @@ import '../theme/app_colors.dart' show AppColors;
 /// The real Elara Wave mark (assets/brand/logo-mark.png, cropped from the
 /// client's own logo export — see docs/DESIGN_SYSTEM.md for provenance).
 /// The wordmark is set in our own type rather than the logo file's baked-in
-/// navy text, since that text is illegible on the dark water zones this
-/// mark is mostly used against; pass [wordmarkColor] to adapt it per screen.
+/// navy text; it defaults to dark ink so it stays legible on the light,
+/// near-white water backgrounds used across the app. Pass [wordmarkColor]
+/// to adapt it for any darker surface.
 class ElaraLogo extends StatelessWidget {
   final double size;
   final bool showIcon;
@@ -18,7 +19,7 @@ class ElaraLogo extends StatelessWidget {
     this.size = 72,
     this.showIcon = true,
     this.showWordmark = true,
-    this.wordmarkColor = Colors.white,
+    this.wordmarkColor = AppColors.ink,
   });
 
   @override

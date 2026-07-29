@@ -7,7 +7,6 @@ import '../../core/theme/app_text_styles.dart';
 import '../../core/widgets/app_text_field.dart';
 import '../../core/widgets/elara_logo.dart';
 import '../../core/widgets/primary_button.dart';
-import '../widgets/water/liquid_caustics_background.dart';
 import 'login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -19,7 +18,7 @@ class LoginScreen extends StatelessWidget {
     final screenHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      backgroundColor: AppColors.waterPale,
+      backgroundColor: AppColors.snow,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
@@ -30,26 +29,21 @@ class LoginScreen extends StatelessWidget {
             children: [
               SizedBox(
                 height: screenHeight * 0.42,
-                child: LiquidCausticsBackground(
-                  colorDeep: AppColors.abyss,
-                  colorLight: AppColors.marine,
-                  intensity: 0.9,
-                  child: SafeArea(
-                    bottom: false,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const ElaraLogo(size: 64, showWordmark: false),
-                          const SizedBox(height: AppSpacing.lg),
-                          Text('Rider Portal', style: AppTextStyles.h1(color: Colors.white)),
-                          const SizedBox(height: AppSpacing.xs),
-                          Text(
-                            'Sign in to start your route',
-                            style: AppTextStyles.body(color: Colors.white.withValues(alpha: 0.75)),
-                          ),
-                        ],
-                      ),
+                child: SafeArea(
+                  bottom: false,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const ElaraLogo(size: 96, showWordmark: false),
+                        const SizedBox(height: AppSpacing.lg),
+                        Text('Rider Portal', style: AppTextStyles.h1(color: AppColors.elaraBlue)),
+                        const SizedBox(height: AppSpacing.xs),
+                        Text(
+                          'Sign in to start your route',
+                          style: AppTextStyles.body(color: AppColors.inkMuted),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -92,6 +86,13 @@ class _LoginSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          AppTextField(
+            label: 'Company',
+            controller: controller.companyController,
+            hint: 'e.g. demo',
+            keyboardType: TextInputType.text,
+          ),
+          const SizedBox(height: AppSpacing.lg),
           AppTextField(
             label: 'Username',
             controller: controller.usernameController,

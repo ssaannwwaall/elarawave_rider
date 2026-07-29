@@ -47,8 +47,12 @@ class AnimatedWaterBottle extends StatelessWidget {
               borderRadius: BorderRadius.circular(bodyWidth * 0.16),
               child: WaveFill(
                 progress: progress,
-                backColor: AppColors.aqua.withValues(alpha: 0.32),
-                frontColor: AppColors.elaraBlue.withValues(alpha: 0.34),
+                // Clear, light water with a whisper of depth — translucent so
+                // the real bottle render shows through, never a solid blue.
+                backColor: AppColors.waterLight.withValues(alpha: 0.30),
+                frontColor: AppColors.waterMid.withValues(alpha: 0.38),
+                // Slow, deliberate rise so the bottle visibly fills with water.
+                levelDuration: const Duration(milliseconds: 2200),
               ),
             ),
           ),

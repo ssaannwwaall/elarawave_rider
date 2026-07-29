@@ -15,8 +15,10 @@ import '../../domain/repositories/rider_repository.dart';
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(ApiClient(), permanent: true);
-    Get.put(SessionStorage(GetStorage()), permanent: true);
+    // Storage first — the ApiClient needs the saved company slug to build its
+    // base URL on a warm start (an already-logged-in rider).
+    final sessionStorage = Get.put(SessionStorage(GetStorage()), permanent: true);
+    Get.put(ApiClient(company: sessionStorage.company), permanent: true);
     Get.put(RiderRemoteDataSource(Get.find<ApiClient>()), permanent: true);
     Get.put<RiderRepository>(
       RiderRepositoryImpl(Get.find<RiderRemoteDataSource>()),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_text_styles.dart';
-import '../../presentation/widgets/water/wave_fill.dart';
 
-/// Flat elaraBlue — the light "surface" zone stays clean and flat by
-/// design; gradients are reserved for the water header. In the loading
-/// state, a [WaveFill] sweeps left-to-right instead of a spinner.
+/// Flat elaraBlue CTA. While loading, a real water animation
+/// (assets/lottie/material_wave_loading.json) floods the button so it reads
+/// as water rising in place — not a spinner, not a hand-drawn wave.
 class PrimaryButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -34,11 +34,13 @@ class PrimaryButton extends StatelessWidget {
           children: [
             if (isLoading)
               Positioned.fill(
-                child: WaveFill(
-                  progress: 1,
-                  backColor: Colors.white.withValues(alpha: 0.12),
-                  frontColor: Colors.white.withValues(alpha: 0.20),
+                child: ClipRRect(
                   borderRadius: BorderRadius.circular(AppRadius.button),
+                  child: Lottie.asset(
+                    'assets/lottie/material_wave_loading.json',
+                    fit: BoxFit.cover,
+                    repeat: true,
+                  ),
                 ),
               ),
             Material(

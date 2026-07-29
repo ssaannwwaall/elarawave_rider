@@ -8,7 +8,7 @@ class AppTheme {
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.mist,
+      scaffoldBackgroundColor: AppColors.snow,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.elaraBlue,
         primary: AppColors.elaraBlue,

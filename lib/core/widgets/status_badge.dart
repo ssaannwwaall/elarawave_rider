@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
+import '../constants/order_status.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_text_styles.dart';
-
-/// Color per machine-readable `order_status` key. Only `ready` is confirmed
-/// so far (docs/API.md) — add more keys here as the backend confirms them.
-/// Deliberately a map, not a closed enum: an unseen status still renders
-/// sensibly via the neutral-grey fallback instead of breaking.
-const Map<String, Color> _statusColors = {
-  'ready': AppColors.amber,
-  // TODO: confirm and add delivered (-> mineral), cancelled (-> coral),
-  // pending (-> amber) once the backend documents their exact keys.
-};
-
-const Color _fallbackColor = AppColors.inkMuted;
 
 class StatusBadge extends StatelessWidget {
   /// Machine-readable status key (`order_status`), used to pick a color.
@@ -25,10 +13,10 @@ class StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = label ?? statusKey;
-    if (text == null || text.trim().isEmpty) return const SizedBox.shrink();
+    final text = label ?? OrderStatus.labelFor(statusKey);
+    if (text.trim().isEmpty) return const SizedBox.shrink();
 
-    final color = _statusColors[statusKey?.toLowerCase().trim()] ?? _fallbackColor;
+    final color = OrderStatus.colorFor(statusKey);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: 5),

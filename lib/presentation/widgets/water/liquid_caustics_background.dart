@@ -26,8 +26,8 @@ class LiquidCausticsBackground extends StatefulWidget {
   const LiquidCausticsBackground({
     super.key,
     this.intensity = 1.0,
-    this.colorDeep = AppColors.waterDeep,
-    this.colorLight = AppColors.waterLight,
+    this.colorDeep = AppColors.heroDeep,
+    this.colorLight = AppColors.heroLight,
     this.child,
   });
 
@@ -44,6 +44,14 @@ class _LiquidCausticsBackgroundState extends State<LiquidCausticsBackground>
   late final Ticker _ticker;
   late final Worker _motionWorker;
   double _time = 0;
+
+  // Cap the repaint rate to ~30fps instead of repainting the full-screen
+  // caustics shader on every vsync. Painting every frame (60/90/120Hz)
+  // saturates the surface's buffer queue on lower-end GPUs — the source of
+  // the "BLASTBufferQueue ... Can't acquire next buffer" log spam — for no
+  // perceptible benefit on slow, organic water motion.
+  static const Duration _minFrameInterval = Duration(milliseconds: 33);
+  Duration _lastFrame = Duration.zero;
 
   @override
   void initState() {
@@ -78,6 +86,8 @@ class _LiquidCausticsBackgroundState extends State<LiquidCausticsBackground>
 
   void _onTick(Duration elapsed) {
     if (WidgetsBinding.instance.lifecycleState != AppLifecycleState.resumed) return;
+    if (elapsed - _lastFrame < _minFrameInterval) return;
+    _lastFrame = elapsed;
     setState(() => _time = elapsed.inMilliseconds / 1000.0);
   }
 

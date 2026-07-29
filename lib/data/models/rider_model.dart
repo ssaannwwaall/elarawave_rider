@@ -6,6 +6,8 @@ class RiderModel extends Rider {
     required super.name,
     required super.username,
     required super.email,
+    super.type,
+    super.photoUrl,
   });
 
   factory RiderModel.fromJson(Map<String, dynamic> json) {
@@ -14,6 +16,8 @@ class RiderModel extends Rider {
       name: json['name']?.toString() ?? '',
       username: json['username']?.toString() ?? '',
       email: json['email']?.toString() ?? '',
+      type: json['type']?.toString() ?? '',
+      photoUrl: json['photo_url']?.toString() ?? '',
     );
   }
 
@@ -22,5 +26,7 @@ class RiderModel extends Rider {
         'name': name,
         'username': username,
         'email': email,
+        'type': type,
+        'photo_url': photoUrl,
       };
 }

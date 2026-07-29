@@ -18,6 +18,10 @@ class WaveFill extends StatefulWidget {
   final CustomClipper<Path>? clipper;
   final BorderRadius borderRadius;
 
+  /// How long the water level takes to ease to a new [progress]. Bumped up
+  /// on the splash bottle so the fill rises slowly and reads as real water.
+  final Duration levelDuration;
+
   const WaveFill({
     super.key,
     required this.progress,
@@ -25,6 +29,7 @@ class WaveFill extends StatefulWidget {
     required this.frontColor,
     this.clipper,
     this.borderRadius = BorderRadius.zero,
+    this.levelDuration = const Duration(milliseconds: 900),
   });
 
   @override
@@ -42,7 +47,7 @@ class _WaveFillState extends State<WaveFill> with TickerProviderStateMixin {
     _phaseController = AnimationController(vsync: this, duration: const Duration(seconds: 4));
     _levelController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
+      duration: widget.levelDuration,
       value: widget.progress,
     );
     _syncMotion();
@@ -65,7 +70,7 @@ class _WaveFillState extends State<WaveFill> with TickerProviderStateMixin {
     if (oldWidget.progress != widget.progress) {
       _levelController.animateTo(
         widget.progress,
-        duration: const Duration(milliseconds: 900),
+        duration: widget.levelDuration,
         curve: Curves.easeOutCubic,
       );
     }

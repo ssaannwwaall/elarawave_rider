@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/network/api_client.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/storage/session_storage.dart';
@@ -11,7 +12,9 @@ import '../widgets/water/purity_ripple.dart';
 class LoginController extends GetxController {
   final RiderRepository _riderRepository = Get.find<RiderRepository>();
   final SessionStorage _sessionStorage = Get.find<SessionStorage>();
+  final ApiClient _apiClient = Get.find<ApiClient>();
 
+  final companyController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -24,8 +27,11 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // Prefill the company from the last successful login (kept across logout).
+    companyController.text = _sessionStorage.company;
     // Dev convenience only — never active in a release build.
     if (kDebugMode) {
+      if (companyController.text.isEmpty) companyController.text = 'demo';
       usernameController.text = 'test00';
       passwordController.text = 'test00';
     }
@@ -34,19 +40,24 @@ class LoginController extends GetxController {
   void toggleObscurePassword() => obscurePassword.value = !obscurePassword.value;
 
   Future<void> login(BuildContext context) async {
+    final company = companyController.text.trim();
     final username = usernameController.text.trim();
     final password = passwordController.text;
 
-    if (username.isEmpty || password.isEmpty) {
-      errorText.value = 'Please enter both username and password.';
+    if (company.isEmpty || username.isEmpty || password.isEmpty) {
+      errorText.value = 'Please enter your company, username and password.';
       shakeTrigger.value++;
       return;
     }
+
+    // Point the API client at this company's tenant before authenticating.
+    _apiClient.setCompany(company);
 
     errorText.value = null;
     isLoading.value = true;
     try {
       final rider = await _riderRepository.login(username: username, password: password);
+      await _sessionStorage.saveCompany(company);
       await _sessionStorage.saveRider(rider);
       if (context.mounted) {
         PurityRipple.showAtWidget(context, color: AppColors.aqua);
@@ -65,6 +76,7 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
+    companyController.dispose();
     usernameController.dispose();
     passwordController.dispose();
     super.onClose();

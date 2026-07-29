@@ -47,7 +47,7 @@ class WaterWipeTransition extends CustomTransition {
               child: FractionallySizedBox(
                 alignment: Alignment.bottomCenter,
                 heightFactor: wipeHeightFactor,
-                child: const ColoredBox(color: AppColors.marine),
+                child: const ColoredBox(color: AppColors.waterDeep),
               ),
             ),
           ],

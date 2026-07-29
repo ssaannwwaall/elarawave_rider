@@ -3,7 +3,16 @@ import '../../presentation/home/home_binding.dart';
 import '../../presentation/home/home_screen.dart';
 import '../../presentation/login/login_binding.dart';
 import '../../presentation/login/login_screen.dart';
+import '../../presentation/customers/customer_list_binding.dart';
+import '../../presentation/customers/customer_list_screen.dart';
+import '../../presentation/customers/customer_create_binding.dart';
+import '../../presentation/customers/customer_create_screen.dart';
+import '../../presentation/order_create/order_create_binding.dart';
+import '../../presentation/order_create/order_create_screen.dart';
+import '../../presentation/order_detail/order_detail_binding.dart';
 import '../../presentation/order_detail/order_detail_screen.dart';
+import '../../presentation/profile/profile_binding.dart';
+import '../../presentation/profile/profile_screen.dart';
 import '../../presentation/splash/splash_binding.dart';
 import '../../presentation/splash/splash_screen.dart';
 import 'app_routes.dart';
@@ -37,6 +46,31 @@ class AppPages {
     GetPage(
       name: AppRoutes.orderDetail,
       page: () => const OrderDetailScreen(),
+      binding: OrderDetailBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.profile,
+      page: () => const ProfileScreen(),
+      binding: ProfileBinding(),
+      customTransition: _waterWipe,
+      transitionDuration: const Duration(milliseconds: 650),
+    ),
+    GetPage(
+      name: AppRoutes.customers,
+      page: () => const CustomerListScreen(),
+      binding: CustomerListBinding(),
+      customTransition: _waterWipe,
+      transitionDuration: const Duration(milliseconds: 650),
+    ),
+    GetPage(
+      name: AppRoutes.customerCreate,
+      page: () => const CustomerCreateScreen(),
+      binding: CustomerCreateBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.orderCreate,
+      page: () => const OrderCreateScreen(),
+      binding: OrderCreateBinding(),
     ),
   ];
 }

@@ -38,6 +38,14 @@ class AppColors {
   static const Color elaraBlue = Color(0xFF286482);
   static const Color foam = Color(0xFFD2F0FA);
 
+  // Hero water backgrounds — the ONE pair every full-bleed water surface
+  // (splash, login header, home header) uses, so all screens read the same:
+  // clear, near-white water like the splash in bottle-premium.png, never a
+  // dark navy slab. Deeper blues (waterDeep/elaraBlue) are reserved for small
+  // accents and the bottle fill, where a hint of depth reads as real water.
+  static const Color heroDeep = aqua;
+  static const Color heroLight = waterPale;
+
   // Mineral (from the badges on the bottle photo)
   static const Color mineral = Color(0xFF3C8C00);
   static const Color mineralLight = Color(0xFF6EAA00);
@@ -56,12 +64,12 @@ class AppColors {
   static const Color amber = Color(0xFFB7A52D);
   static const Color coral = Color(0xFFE8544E);
 
-  /// Header gradient: light water at top, deepening toward the bottom —
-  /// still bright throughout, never dark navy.
+  /// Hero gradient (also the shader's graceful-degradation fallback): near-white
+  /// water at top easing into a light aqua — bright throughout, never dark navy.
   static const LinearGradient waterGradient = LinearGradient(
     begin: Alignment(-0.4, -1),
     end: Alignment(0.5, 1),
-    colors: [waterLight, waterMid, waterDeep],
+    colors: [waterPale, waterLight, aqua],
     stops: [0.0, 0.55, 1.0],
   );
 
